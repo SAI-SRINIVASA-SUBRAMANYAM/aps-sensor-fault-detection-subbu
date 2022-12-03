@@ -31,3 +31,10 @@ pip --version
 ```bash 
 pip list
 ```
+
+### Step 6 - Git configurations
+
+```bash 
+git config --global user.email "subramanyam.sista@gmail.com"
+git config --global user.name "SAI-SRINIVASA-SUBRAMANYAM"
+```
