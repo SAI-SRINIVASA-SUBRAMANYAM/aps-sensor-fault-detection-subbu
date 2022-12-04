@@ -4,8 +4,8 @@ from sensor.exception import SensorException
 from sensor.config import mongo_client
 import os,sys
 import yaml
+import numpy as np
 import dill
-
 
 def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataFrame:
     """
@@ -30,14 +30,14 @@ def get_collection_as_dataframe(database_name:str,collection_name:str)->pd.DataF
         raise SensorException(e, sys)
     
 
-def write_yaml_file(file_path, data:dict):
+def write_yaml_file(file_path,data:dict):
     try:
         file_dir = os.path.dirname(file_path)
-        os.makedirs(file_dir, exist_ok=True)
-        with open(file_path, "w") as fptr:
-            yaml.dump(data, fptr)
+        os.makedirs(file_dir,exist_ok=True)
+        with open(file_path,"w") as file_writer:
+            yaml.dump(data,file_writer)
     except Exception as e:
-        raise SensorException(error_message=e, error_detail=sys)
+        raise SensorException(e, sys)
 
 def convert_columns_float(df:pd.DataFrame,exclude_columns:list)->pd.DataFrame:
     try:
@@ -47,13 +47,15 @@ def convert_columns_float(df:pd.DataFrame,exclude_columns:list)->pd.DataFrame:
         return df
     except Exception as e:
         raise e
+
+
 def save_object(file_path: str, obj: object) -> None:
     try:
-        logging.info("Entered the save_object method of MainUtils class")
+        logging.info("Entered the save_object method of utils")
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, "wb") as file_obj:
             dill.dump(obj, file_obj)
-        logging.info("Exited the save_object method of MainUtils class")
+        logging.info("Exited the save_object method of utils")
     except Exception as e:
         raise SensorException(e, sys) from e
 
